@@ -5,7 +5,7 @@ import { bindActionCreators } from "redux";
 import { Creators as CarrinhoActions } from '../../store/ducks/carrinho';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import Navigation from '../../services/navigation';
+import { navigate } from '../../services/navigation';
 
 import {
   Container,
@@ -19,32 +19,30 @@ import {
 
 import logo from '../../assets/logo.png';
 
-class Header extends Component  {
-
+class Header extends Component {
   render() {
-      return (
+    return (
       <Container>
-        <LogoButton onPress={() => Navigation.navigate('Home')}>
+        <LogoButton onPress={() => navigate('Home')}>
           <LogoImage source={logo} />
         </LogoButton>
 
-        
-        <SearchIcon onPress={() => Navigation.navigate('Pesquisa')}>
+        <SearchIcon onPress={() => navigate('Pesquisa')}>
           <Icon name="search" size={30} color="#fff" />
         </SearchIcon>
-        <ShoppingBasket onPress={() => Navigation.navigate('Carrinho')}>
-        
+        <ShoppingBasket onPress={() => navigate('Carrinho')}>
           <Icon name="shopping-basket" size={30} color="#fff" />
 
           <ShoppingBaskterBadge>
-            <ShoppingBaskterBadgeText>{this.props.carrinho.length}</ShoppingBaskterBadgeText>
+            <ShoppingBaskterBadgeText>
+              {this.props.carrinho.length}
+            </ShoppingBaskterBadgeText>
           </ShoppingBaskterBadge>
         </ShoppingBasket>
       </Container>
     );
   }
 }
-
 
 const mapStateToProps = state => ({
   carrinho: state.carrinho

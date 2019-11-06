@@ -42,8 +42,8 @@ class Entrega extends Component {
     setRua: PropTypes.func.isRequired,
     setNumero: PropTypes.func.isRequired,
     setCidade: PropTypes.func.isRequired,
-	setValor: PropTypes.func.isRequired,
-    setUF: PropTypes.func.isRequired
+	  setValor: PropTypes.func.isRequired,
+    setUF: PropTypes.func.isRequired,
   };
 
   state = {

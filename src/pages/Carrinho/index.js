@@ -41,22 +41,11 @@ class Carrinho extends Component {
     navigation: PropTypes.shape({
       navigate: PropTypes.func.isRequired,
     }).isRequired,
+	totalCarrinho: PropTypes.number.isRequired,
   }
   state = {
     total: 0
   };
-  componentDidMount() {
-    const cart = this.props.carrinho.map(product => ({
-      ...product,
-      subTotal: formatPrice(product.price * product.amount),
-    }))
-    const total = formatPrice(
-      this.props.carrinho.reduce((sumTotal, product) => {
-        return sumTotal + product.amount * product.price;
-      }, 0))
-     this.setState({cart, total});
-  }
-
   
   decrement = (product) => {
     const { updateAmountRequest } = this.props;
@@ -69,9 +58,8 @@ class Carrinho extends Component {
   }
 
    render() {
-     console.tron.log(this.props);
-    const { carrinho, navigation, removeFromCart } = this.props;
-    return (
+    const { totalCarrinho, carrinho, navigation, removeFromCart } = this.props;
+	return (
       <Container>
         {carrinho.length > 0 ? (
           <List
@@ -121,14 +109,14 @@ class Carrinho extends Component {
                       />
                     </ProductTotalAmountIncrement>
                   </ProductTotalAmount>
-                  <ProductTotalPrice>{product.subTotal}</ProductTotalPrice>
+                  <ProductTotalPrice>{formatPrice(product.price * product.amount)}</ProductTotalPrice>
                 </ProductTotal>
               </Product>
             )}
             ListFooterComponent={
               <Footer>
                 <FooterLabel>Total</FooterLabel>
-                <FooterPrice>{this.state.total}</FooterPrice>
+                <FooterPrice>{totalCarrinho}</FooterPrice>
                 <FooterButton onPress={() => navigation.navigate('Entrega')}>
                   <FooterButtonText>Finalizar compra</FooterButtonText>
                 </FooterButton>
@@ -138,7 +126,7 @@ class Carrinho extends Component {
         ) : (
           <EmptyCart>
             <Icon name="cart-off" size={72} color="#999999" />
-            <EmptyCartText>Seu carrinho está vázio.</EmptyCartText>
+            <EmptyCartText>Seu carrinho está vazio.</EmptyCartText>
             <EmptyCartButton onPress={() => navigation.navigate('Home')}>
               <EmptyCartButtonText>Voltar as compras</EmptyCartButtonText>
             </EmptyCartButton>
@@ -152,7 +140,11 @@ class Carrinho extends Component {
 
 const mapStateToProps = state => ({
   carrinho: state.carrinho,
-  produtos: state.produtos
+  produtos: state.produtos,
+  totalCarrinho: formatPrice(
+      state.carrinho.reduce((sumTotal, product) => {
+        return sumTotal + product.amount * product.price;
+      }, 0))
 });
 
 const mapDispatchToProps = dispatch =>

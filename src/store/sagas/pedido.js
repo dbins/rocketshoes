@@ -1,22 +1,22 @@
-import { call, put, select } from "redux-saga/effects";
-import { showMessage } from 'react-native-flash-message';
-import api from "../../services/api";
-import consultaCEP from "../../services/cep";
-import { navigate } from "../../services/navigation";
-import { Creators as PedidoActions } from "../ducks/pedido";
-import { Creators as CarrinhoActions } from "../ducks/carrinho";
+import { call, put, select } from 'redux-saga/effects';
+import { showMessage } from "react-native-flash-message";
+import api from '../../services/api';
+import consultaCEP from '../../services/cep';
+import { navigate } from '../../services/navigation';
+import { Creators as PedidoActions } from '../ducks/pedido';
+import { Creators as CarrinhoActions } from '../ducks/carrinho';
 
 export function* getCEP(action) {
   try {
     const cep = action.payload.cep;
-    const response = yield call(consultaCEP.get, "/web_cep.php?cep=" + cep);
+    const response = yield call(consultaCEP.get, '/web_cep.php?cep=' + cep);
     const retorno = response.data;
 
     //Converter string texto em objeto...
-    var vars = retorno.split("&");
+    var vars = retorno.split('&');
     var resultados = {};
     for (var i = 0; i < vars.length; i++) {
-      var pair = vars[i].split("=");
+      var pair = vars[i].split('=');
       resultados[pair[0]] = pair[1];
     }
 
@@ -42,14 +42,21 @@ export function* criarPedido() {
     yield put(PedidoActions.pedidoResponse());
     yield put(CarrinhoActions.carrinhoClear({}));
 
-    showMessage({
-      message: 'Pedido gravado com sucesso!',
-      type: 'success',
-    });
-
-    //navigate("Home");
+    if (forma_pagamento == 'CARTAO') {
+      showMessage({
+        message: "Pedido gravado com sucesso!",
+        type: "success"
+      });
+    } else {
+      showMessage({
+        message:
+          'Pedido gravado com sucesso, pague na entrega do produto!',
+        type: 'success',
+      });
+    }
+    navigate('Home');
   } catch (err) {
-    
+    console.tron.log(err);
     yield put(PedidoActions.pedidoFailure());
   }
 }

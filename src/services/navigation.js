@@ -2,11 +2,11 @@ import { NavigationActions } from 'react-navigation';
 
 let navigator;
 
-function set(ref) {
+export function setNavigator(ref) {
   navigator = ref;
 }
 
-function navigate(routeName, params) {
+export function navigate(routeName, params) {
   navigator.dispatch(
     NavigationActions.navigate({
       routeName,
@@ -15,12 +15,7 @@ function navigate(routeName, params) {
   );
 }
 
-function back() {
+export function back() {
   navigator.dispatch(NavigationActions.back());
 }
 
-export default {
-  navigate,
-  back,
-  set,
-};

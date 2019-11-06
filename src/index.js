@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import FlashMessage from 'react-native-flash-message';
 
 import './config/ReactotronConfig';
-import Navigation from './services/navigation';
+import { setNavigator } from './services/navigation';
 
 import Header from './components/Header';
 import Routes from './routes';
@@ -16,7 +16,7 @@ class App extends Component {
       <Provider store={store}>
         <StatusBar barStyle="light-content" backgroundColor="#141419" />
         <Header />
-        <Routes ref={nav => Navigation.set(nav)} />
+        <Routes ref={nav => setNavigator(nav)} />
         <FlashMessage position="top" duration={3000} />
       </Provider>
     );

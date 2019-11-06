@@ -27,6 +27,12 @@
   ],
   "products": [
     {
+      "id": 7,
+      "title": "Tênis Nike",
+      "price": 319.9,
+      "image": "https://dbins.websiteseguro.com/upload_arquivos/rocketshoes.gif"
+    },
+    {
       "id": 1,
       "title": "Tênis de Caminhada Leve Confortável",
       "price": 179.9,
